@@ -24,6 +24,57 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
+        <div class="container-fluid">
+          <!-- Brand/Logo -->
+          <%= link_to "Home", root_path, class: "navbar-brand" %>
+
+          <!-- Toggle Button for Mobile -->
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <!-- Navbar Links -->
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <%= link_to "Dashboard", dashboards_path, class: "nav-link" %>
+              </li>
+            </ul>
+
+            <!-- Optional: Right-Aligned Items (e.g., Login/Logout) -->
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <%= link_to "Login", "#", class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Sign Up", "#", class: "nav-link btn btn-primary" %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    
+    <main class="p-5">
+      <% if notice %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= notice %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
+
+      <% if alert %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+          <%= alert %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
+
+      <%= yield %>
+    </main>
   </body>
 </html>
