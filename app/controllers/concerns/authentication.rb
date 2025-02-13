@@ -17,8 +17,13 @@ module Authentication
   def sign_in(user)
     session = user.sessions.create!
     cookies.signed.permanent[:session_id] = {
-      value: user.id, httponly: true
+      value: session.id, httponly: true
     }
+  end
+
+  def sign_out
+    session_from_cookies.destroy!
+    cookies.delete(:session_id)
   end
 
   def session_from_cookies

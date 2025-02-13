@@ -47,12 +47,15 @@
 
             <!-- Optional: Right-Aligned Items (e.g., Login/Logout) -->
             <ul class="navbar-nav ms-auto">
-              <li class="nav-item">
-                <%= link_to "Login", new_session_path, class: "nav-link" %>
-              </li>
-              <li class="nav-item">
-                <%= link_to "Sign Up", new_registration_path, class: "nav-link btn btn-primary" %>
-              </li>
+              <% if Current.user %>
+                <li class="nav-item">
+                  <%= button_to "Sign Out", session_path, method: :delete, class: "nav-link btn btn-primary" %>
+                </li>
+              <% else %>
+                <li class="nav-item">
+                  <%= link_to "Login", new_session_path, class: "nav-link" %>
+                </li>
+              <% end %>
             </ul>
           </div>
         </div>
