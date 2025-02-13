@@ -7,8 +7,9 @@ class RegistrationsController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      sign_in(@user)
       redirect_to dashboards_path,
-      notice: "Welcome! Your account was crated successfully"
+      notice: "Welcome! Your account is ready"
     else
       render :new, status: :unprocessable_entity
     end

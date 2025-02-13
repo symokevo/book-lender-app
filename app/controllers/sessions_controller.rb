@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
 
   def create
     if user = User.authenticate_by(session_params)
-      # sign in logic here
+      sign_in user
       redirect_to dashboards_path,
       notice: "Welcome #{user.email}!"
     else

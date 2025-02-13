@@ -3,7 +3,7 @@
     <div class="col-md-6">
       <h1 class="text-center mb-4">Sign In</h1>
 
-      <%= form_with scope: :session, url: new_session_path, class: "shadow p-4 bg-white rounded" do |f| %>
+      <%= form_with scope: :session, url: session_path, class: "shadow p-4 bg-white rounded" do |f| %>
         <div class="mb-3">
           <%= f.label :email, class: "form-label" %>
           <%= f.email_field :email, class: "form-control", placeholder: "Enter your email" %>
@@ -20,7 +20,7 @@
       <% end %>
 
       <div class="text-center mt-4">
-        <p>Don't have an account? <%= link_to "Sign Up", registration_path %></p>
+        <p>Don't have an account? <%= link_to "Sign Up", new_registration_path %></p>
         <p><%= link_to "Forgot your password?", "#" %></p>
       </div>
     </div>
