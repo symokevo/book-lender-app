@@ -6,5 +6,5 @@ class User < ApplicationRecord
   validates :password, length: { minimum: MINIMUM_PASSWORD_LENGTH }, if: -> { password.present? }
   validates :email, presence: true, uniqueness: true
 
-  normalize :email, with: ->(email) { email.strip.downcase }
+  normalizes :email, with: ->(email) { email.strip.downcase }
 end
