@@ -9,8 +9,11 @@ module Authentication
   end
 
   def restore_authentication
-    if session = session_from_cookies
-      Current.user = session.user
+    if (user_session = session_from_cookies)
+      Current.user = user_session.user
+      true
+    else
+      false
     end
   end
 
@@ -22,8 +25,9 @@ module Authentication
   end
 
   def sign_out
-    session_from_cookies.destroy!
+    session_from_cookies&.destroy!
     cookies.delete(:session_id)
+    Current.user = nil
   end
 
   def redirect_if_signed_in

@@ -1,0 +1,33 @@
+<div class="container mt-4">
+  <h1 class="fw-bold">Borrowing History</h1>
+  <p class="lead">Borrower: <strong><%= @borrower_name %></strong></p>
+
+  <div class="table-responsive rounded shadow-sm">
+    <table class="table table-bordered table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>Book Title</th>
+          <th>Borrowed At</th>
+          <th>Due Date</th>
+          <th>Returned At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @borrowings.each do |borrowing| %>
+          <tr>
+            <td><%= borrowing.book.title %></td>
+            <td><%= borrowing.borrowed_at.strftime("%B %d, %Y %I:%M %p") %></td>
+            <td><%= borrowing.due_date %></td>
+            <td>
+              <% if borrowing.returned_on %>
+                <%= borrowing.returned_on.strftime("%B %d, %Y %I:%M %p") %>
+              <% else %>
+                <span class="text-danger">Not Returned</span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

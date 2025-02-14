@@ -7,6 +7,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
     <%= yield :head %>
 
@@ -28,7 +29,7 @@
       <nav class="navbar navbar-expand-lg navbar-light bg-light p-3">
         <div class="container-fluid">
           <!-- Brand/Logo -->
-          <%= link_to "Home", root_path, class: "navbar-brand" %>
+          <%= link_to "Books", root_path, class: "navbar-brand" %>
 
           <!-- Toggle Button for Mobile -->
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
@@ -41,13 +42,16 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <%= link_to "Dashboard", dashboards_path, class: "nav-link" %>
+                <%= link_to "Readers", dashboards_path, class: "nav-link" %>
               </li>
             </ul>
 
-            <!-- Optional: Right-Aligned Items (e.g., Login/Logout) -->
             <ul class="navbar-nav ms-auto">
               <% if Current.user %>
+                <li class="nav-item">
+                  <%= link_to "Profile", dashboards_path, class: "nav-link" %>
+                </li>
+                
                 <li class="nav-item">
                   <%= button_to "Sign Out", session_path, method: :delete, class: "nav-link btn btn-primary" %>
                 </li>

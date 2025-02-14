@@ -1,2 +1,74 @@
-<h1>Books#show</h1>
-<p>Find me in app/views/books/show.html.erb</p>
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="fw-bold"><%= @book.title %></h1>
+    <%= link_to "Edit", edit_book_path(@book), class: "btn btn-warning px-4" %>
+  </div>
+
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <p><strong>Author:</strong> <%= @book.author %></p>
+      <p><strong>isbn:</strong> <%= @book.isbn %></p>
+      <p>
+        <strong>Status:</strong>
+        <span class="badge <%= @book.status == 'available' ? 'bg-success' : 'bg-danger' %>">
+          <%= @book.status.capitalize %>
+        </span>
+      </p>
+
+      <% if @book.status == "available" %>
+        <%= form_with url: borrow_book_path(@book), method: :patch, class: "d-inline" do %>
+          <div class="input-group">
+            <input type="text" name="borrower_name" class="form-control" placeholder="Borrower's Name" required>
+            <button type="submit" class="btn btn-primary">Borrow</button>
+          </div>
+        <% end %>
+      <% else %>
+        <%= form_with url: return_book_path(@book), method: :patch, local: true do %>
+          <button type="submit" class="btn btn-secondary">Return Book</button>
+        <% end %>
+      <% end %>
+    </div>
+
+      <%= form_with url: book_path(@book), method: :delete, data: { confirm: "Are you sure?" }, class: "ms-3 mb-3" do %>
+        <button type="submit" class="btn btn-outline-danger btn-sm" title="Delete Book">
+          Delete
+        </button>
+      <% end %>
+  </div>
+
+  <h3>Borrowing History</h3>
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>Borrower</th>
+          <th>Borrowed At</th>
+          <th>Due Date</th>
+          <th>Returned At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @borrowings.each do |borrowing| %>
+          <tr>
+            <td><%= borrowing.borrower_name %></td>
+            <td><%= borrowing.borrowed_at&.strftime("%B %d, %Y %I:%M %p") || "N/A" %></td>
+            <td>
+              <% if borrowing.due_date %>
+                <%= borrowing.due_date.strftime("%B %d, %Y %I:%M %p") %>
+              <% else %>
+                <span class="text-danger">N/A</span>
+              <% end %>
+            </td>
+            <td>
+              <% if borrowing.returned_on %>
+                <%= borrowing.returned_on.strftime("%B %d, %Y %I:%M %p") %>
+              <% else %>
+                <span class="text-danger">Not Returned</span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
