@@ -29,7 +29,7 @@ module Authentication
   def redirect_if_signed_in
     if restore_authentication
       redirect_to root_path,
-      notice: |"You are already signed in"
+      notice: "You are already signed in"
     end
   end
 
