@@ -1,4 +1,5 @@
 class BorrowingsController < ApplicationController
+  before_action :require_authentication
   def index
     if params[:borrower_name].present?
       @borrowings = Borrowing.where(

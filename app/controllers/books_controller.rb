@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-  before_action :require_authentication, only: [ :new, :edit, :create, :update, :destroy, :borrow, :return ]
+  before_action :require_authentication
   before_action :set_book, only: [ :show, :edit, :update, :destroy, :borrow, :return ]
 
   def index
