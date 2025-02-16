@@ -1,5 +1,5 @@
 class RegistrationsController < ApplicationController
-  before_action :redirect_if_signed_in, %i[new create]
+  before_action :redirect_if_signed_in, only: [ :new, :create ]
 
   def new
     @user = User.new
