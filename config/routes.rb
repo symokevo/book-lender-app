@@ -10,6 +10,6 @@ Rails.application.routes.draw do
       patch :return
     end
   end
-  resources :borrowings
+  resources :borrowings, only: :index
   get "up" => "rails/health#show", as: :rails_health_check
 end

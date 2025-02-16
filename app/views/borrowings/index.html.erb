@@ -1,23 +1,27 @@
-<div class="container mt-4">
-  <h1 class="fw-bold">Borrowing History</h1>
-  <p class="lead">Borrower: <strong><%= @borrower_name %></strong></p>
-
-  <div class="table-responsive rounded shadow-sm">
-    <table class="table table-bordered table-hover">
-      <thead class="table-light">
-        <tr>
-          <th>Book Title</th>
-          <th>Borrowed At</th>
-          <th>Due Date</th>
-          <th>Returned At</th>
-        </tr>
-      </thead>
-      <tbody>
+<h3>Borrowing History</h3>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead class="table-light">
+      <tr>
+        <th>Borrower</th>
+        <th>Borrowed At</th>
+        <th>Due Date</th>
+        <th>Returned At</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if @borrowings.any? %>
         <% @borrowings.each do |borrowing| %>
           <tr>
-            <td><%= borrowing.book.title %></td>
+            <td><%= borrowing.borrower_name %></td>
             <td><%= borrowing.borrowed_at.strftime("%B %d, %Y %I:%M %p") %></td>
-            <td><%= borrowing.due_date %></td>
+            <td>
+              <% if borrowing.due_date %>
+                <%= borrowing.due_date.strftime("%B %d, %Y %I:%M %p") %>
+              <% else %>
+                <span class="text-danger">N/A</span>
+              <% end %>
+            </td>
             <td>
               <% if borrowing.returned_on %>
                 <%= borrowing.returned_on.strftime("%B %d, %Y %I:%M %p") %>
@@ -27,7 +31,11 @@
             </td>
           </tr>
         <% end %>
-      </tbody>
-    </table>
-  </div>
+      <% else %>
+        <tr>
+          <td colspan="4" class="text-center">No borrowing history found.</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

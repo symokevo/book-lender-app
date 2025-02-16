@@ -7,6 +7,7 @@ class BooksController < ApplicationController
   end
 
   def show
+    @book = Book.find(params[:id])
     @book.reload
     @borrowings = @book.borrowings.order(borrowed_at: :desc)
   end
@@ -60,57 +61,27 @@ class BooksController < ApplicationController
   end
 
   def borrow
-    # Ensures the book is available
-    if @book.status == "available"
-      # Use a transaction to ensure atomicity
-      ActiveRecord::Base.transaction do
-        # Update the book's status
-        @book.update!(status: "borrowed")
-
-        # Create a borrowing record
-        @book.borrowings.create!(
-          user_id: Current.user.id,
-          borrower_name: params[:borrower_name],
-          borrowed_at: Time.current,
-          due_date: Time.current + 2.weeks
-        )
-      end
-
-      # Redirect with a success message
-      redirect_to book_path, notice: "The book was successfully borrowed :)"
+    if @book.status == "available" && @book.update(status: "borrowed")
+      @book.borrowings.create(
+        user_id: Current.user.id,
+        borrower_name: params[:borrower_name],
+        borrowed_at: Time.current,
+        due_date: Time.current + 2.weeks
+      )
+        redirect_to @book, notice: "The book was successfully borrowed :)"
     else
-      # Redirect with an error message
-      redirect_to book_path, alert: "Someone seems to have the book :("
+        redirect_to @book, alert: "Someone seems to have the book :("
     end
-  rescue ActiveRecord::RecordInvalid => e
-    # Handle validation or database errors
-    redirect_to book_path, alert: "Something went wrong: #{e.message}"
   end
 
   def return
-    # Use a transaction to ensure atomicity
-    ActiveRecord::Base.transaction do
-      # Update the book's status
-      @book.update!(status: "available")
-
-      # Find the latest borrowing record
+    if @book.update(status: "available")
       borrowing = @book.borrowings.where(returned_on: nil).last
-
-      # Raise an error if no borrowing record is found
-      raise ActiveRecord::RecordNotFound, "No active borrowing record found" unless borrowing
-
-      # Update the borrowing record
-      borrowing.update!(returned_on: Time.current)
+      borrowing.update(returned_on: Time.current) if borrowing
+      redirect_to @book, notice: "Book was successfully returned :)"
+    else
+      redirect_to @book, alert: "The book is not returned :("
     end
-
-    # Redirect with a success message
-    redirect_to @book, notice: "Book was successfully returned :)"
-  rescue ActiveRecord::RecordNotFound => e
-    # Handle case where no borrowing record is found
-    redirect_to @book, alert: "No active borrowing record found :("
-  rescue ActiveRecord::RecordInvalid => e
-    # Handle validation or database errors
-    redirect_to @book, alert: "Something went wrong: #{e.message}"
   end
 
   private

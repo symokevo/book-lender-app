@@ -48,24 +48,30 @@
         </tr>
       </thead>
       <tbody>
-        <% @borrowings.each do |borrowing| %>
+        <% if @borrowings.any? %>
+          <% @borrowings.each do |borrowing| %>
+            <tr>
+              <td><%= borrowing.borrower_name %></td>
+              <td><%= borrowing.borrowed_at.strftime("%B %d, %Y %I:%M %p") %></td>
+              <td>
+                <% if borrowing.due_date %>
+                  <%= borrowing.due_date.strftime("%B %d, %Y %I:%M %p") %>
+                <% else %>
+                  <span class="text-danger">N/A</span>
+                <% end %>
+              </td>
+              <td>
+                <% if borrowing.returned_on %>
+                  <%= borrowing.returned_on.strftime("%B %d, %Y %I:%M %p") %>
+                <% else %>
+                  <span class="text-danger">Not Returned</span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        <% else %>
           <tr>
-            <td><%= borrowing.borrower_name %></td>
-            <td><%= borrowing.borrowed_at&.strftime("%B %d, %Y %I:%M %p") || "N/A" %></td>
-            <td>
-              <% if borrowing.due_date %>
-                <%= borrowing.due_date.strftime("%B %d, %Y %I:%M %p") %>
-              <% else %>
-                <span class="text-danger">N/A</span>
-              <% end %>
-            </td>
-            <td>
-              <% if borrowing.returned_on %>
-                <%= borrowing.returned_on.strftime("%B %d, %Y %I:%M %p") %>
-              <% else %>
-                <span class="text-danger">Not Returned</span>
-              <% end %>
-            </td>
+            <td colspan="4" class="text-center">No borrowing history found.</td>
           </tr>
         <% end %>
       </tbody>
