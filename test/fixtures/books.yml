@@ -1,11 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  author: MyString
-  isbn: MyString
+  title: "Ruby on Rails Tutorial"
+  author: "Michael Hartl"
+  isbn: "978-0137597716"
+  status: "available"
 
 two:
-  title: MyString
-  author: MyString
-  isbn: MyString
+  title: "Agile Web Development with Rails"
+  author: "Sam Ruby"
+  isbn: "978-1680508184"
+  status: "borrowed"

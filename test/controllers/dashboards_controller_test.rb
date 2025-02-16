@@ -1,8 +1,9 @@
 require "test_helper"
 
 class DashboardsControllerTest < ActionDispatch::IntegrationTest
-  test "should get show" do
-    get dashboards_show_url
+  test "#show is accessible by anyone" do
+    get dashboard_path
+
     assert_response :success
   end
 end
